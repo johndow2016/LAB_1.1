@@ -1,0 +1,63 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+<!-- Заголовок страницы -->
+{% block title %}Веб-приложение{% endblock %}
+
+<!-- Тело страницы -->
+{% block content %}
+<h3>Устранение шума изображения путём применения сглаживания</h3><br>
+{{ wtf.quick_form(form, method='post', enctype="multipart/form-data",action="filter" )}}
+
+
+<br>
+<h4>Исходное изображение</h4>
+<br>
+
+{% if filtered %}
+    ...<img src={{original}} class="img-rounded" alt="origin" />
+    <br><br>
+    <h4>Новое изображение</h4>
+    <br>
+    ...<img src={{filtered}} class="img-rounded" alt="filt" />
+    <br><br><br>
+    <b>График распределения цветов на изображении</b>
+    <br>
+    ...<canvas id="canvas1" width="256px" height="400px" style = "border:solid 1px black">
+        Браузер не поддерживает canvas
+    </canvas>
+    <script>
+      var ctx = document.getElementById("canvas1").getContext("2d");
+      ctx.beginPath();
+      var x = 0;
+      {% for colr in valr %}
+        ctx.moveTo(x, 400);
+        ctx.lineTo(x, 400-{{colr}}/20);
+        x++;
+      {% endfor %}
+      x = 0;
+      ctx.strokeStyle = 'red';
+      ctx.stroke();
+      ctx.beginPath();
+      {% for colr in valg %}
+        ctx.moveTo(x, 400);
+        ctx.lineTo(x, 400-{{colr}}/20);
+        x++;
+      {% endfor %}
+      x = 0;
+      ctx.strokeStyle = 'green';
+      ctx.stroke();
+      ctx.beginPath();
+      {% for colr in valb %}
+        ctx.moveTo(x, 400);
+        ctx.lineTo(x, 400-{{colr}}/20);
+        x++;
+      {% endfor %}
+      ctx.strokeStyle = 'blue';
+      ctx.stroke();
+    </script>
+{% else %}
+    <p>Изображение не загружено</p>
+{% endif %}
+
+{% endblock %}
