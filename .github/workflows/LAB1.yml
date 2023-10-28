@@ -1,1 +1,17 @@
-
+name: Lab1
+run-name: ${{ github.actor }} is learning GitHub Actions
+on: [push]
+jobs:
+  check-bats-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip3 install flask
+      - run: pip3 install gunicorn
+      - run: pip3 install requests
+      - run: pip3 install flask-bootstrap
+      - run: pip3 install flask-wtf
+      - run: pip3 install pillow
+      - run: pip3 install tensorflow
+      - run: pip3 install keras
+      - run: pip3 install lxml
